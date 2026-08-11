@@ -1,0 +1,7 @@
+# generated runtime config
+js/config.js
+.env
+.env.local
+.vercel/
+node_modules/
+.DS_Store

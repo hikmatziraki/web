@@ -1,0 +1,24 @@
+<!DOCTYPE html><html lang="fa-AF" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="ساختِ حسابِ رایگان در ویترین برای خرید یا فروش.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230d9488'/%3E%3Cpath d='M5 10l1.5-5h11L19 10M5 10v9h14v-9M5 10h14M9.5 19v-5h5v5' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<title>ثبت‌نام — ویترین</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head>
+<body data-page="register"><div class="wrap"><div class="auth-box">
+ <h1>ساخت حساب</h1><p class="sub">نقش‌ات را انتخاب کن؛ فروشنده‌ها داشبورد اختصاصی دارند.</p>
+ <form id="form"><div class="err-line" id="err"></div>
+  <div class="roles" style="margin-block-end:14px">
+   <div class="role on" data-role="buyer"><b>خریدار</b><span>مرور، تماس، امتیاز</span></div>
+   <div class="role" data-role="seller"><b>فروشنده</b><span>داشبورد + ثبت آگهی</span></div>
+  </div>
+  <div class="field"><label>نام نمایشی</label><input id="name" required maxlength="30" placeholder="مثلاً احمد"></div>
+  <div class="field"><label>ایمیل</label><input id="email" type="email" required placeholder="you@mail.com"></div>
+  <div class="field" id="phoneField" style="display:none"><label>شماره موبایل (۰۷…) — برای واتساپ</label><input id="phone" inputmode="tel" placeholder="07xxxxxxxx"></div>
+  <div class="row2"><div class="field"><label>رمز عبور</label><input id="pass" type="password" required minlength="6"></div>
+  <div class="field"><label>تکرار رمز</label><input id="pass2" type="password" required></div></div>
+  <button class="btn btn-primary" style="width:100%;padding:13px">ثبت‌نام</button>
+ </form>
+ <p style="font-size:13px;color:var(--ink-3);margin-block-start:14px">حساب داری؟ <a href="login.html" style="color:var(--accent-deep);font-weight:700">وارد شو</a></p>
+ <p style="font-size:11.5px;color:var(--ink-3);margin-block-start:10px;line-height:1.8">با ثبت‌نام، <a href="terms.html" style="color:var(--accent-deep)">قوانین</a> و <a href="privacy.html" style="color:var(--accent-deep)">حریمِ خصوصی</a> ویترین را می‌پذیری.</p>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script><script src="js/supabase-client.js"></script><script src="js/store.js"></script><script src="js/app.js"></script></body></html>
