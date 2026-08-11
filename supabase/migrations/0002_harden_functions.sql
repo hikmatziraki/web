@@ -1,0 +1,12 @@
+alter function private.touch_updated_at() set search_path = public;
+alter function private.prevent_listing_privilege_changes() set search_path = public;
+revoke all on function public.admin_clear_reports(uuid) from public, anon;
+revoke all on function public.admin_set_listing_hidden(uuid, boolean) from public, anon;
+revoke all on function public.admin_set_user_flags(uuid, boolean, boolean) from public, anon;
+revoke all on function public.update_my_profile(text, text) from public, anon;
+grant execute on function public.admin_clear_reports(uuid) to authenticated;
+grant execute on function public.admin_set_listing_hidden(uuid, boolean) to authenticated;
+grant execute on function public.admin_set_user_flags(uuid, boolean, boolean) to authenticated;
+grant execute on function public.update_my_profile(text, text) to authenticated;
+revoke execute on function public.increment_listing_views(uuid) from public;
+grant execute on function public.increment_listing_views(uuid) to anon, authenticated;

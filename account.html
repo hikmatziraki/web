@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="fa-AF" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="تنظیماتِ حسابِ ویترین: نام، شماره و رمزِ عبور.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230d9488'/%3E%3Cpath d='M5 10l1.5-5h11L19 10M5 10v9h14v-9M5 10h14M9.5 19v-5h5v5' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<title>تنظیماتِ حساب — ویترین</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head>
+<body data-page="account"><div class="wrap page">
+ <h1 style="font-size:24px;font-weight:800;margin-block-end:20px">تنظیماتِ <em style="font-style:normal;color:var(--accent)">حساب</em></h1>
+ <div class="auth-box" style="margin:0 0 16px">
+  <p class="sub" style="margin-block-end:16px">اطلاعاتِ نمایشی</p>
+  <form id="pForm">
+   <div class="field"><label>نام نمایشی</label><input id="name" required maxlength="30"></div>
+   <div class="field" id="phoneField" style="display:none"><label>شماره واتساپ (۰۷…)</label><input id="phone" inputmode="tel" placeholder="07xxxxxxxx"></div>
+   <button class="btn btn-primary" style="width:100%;padding:12px">ذخیرهٔ تغییرات</button>
+  </form>
+ </div>
+ <div class="auth-box" style="margin:0">
+  <p class="sub" style="margin-block-end:16px">تغییرِ رمزِ عبور</p>
+  <form id="pwForm">
+   <div class="field"><label>رمزِ جدید</label><input id="np1" type="password" required minlength="6"></div>
+   <div class="field"><label>تکرارِ رمزِ جدید</label><input id="np2" type="password" required minlength="6"></div>
+   <button class="btn btn-ghost" style="width:100%;padding:12px">به‌روزرسانیِ رمز</button>
+  </form>
+ </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script><script src="js/supabase-client.js"></script><script src="js/store.js"></script><script src="js/app.js"></script></body></html>

@@ -1,0 +1,11 @@
+{
+  "name": "vitrin",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node --check js/store.js && node --check js/app.js && node --check scripts/build.mjs"
+  },
+  "engines": { "node": ">=20" }
+}

@@ -1,0 +1,17 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm run check
+      - run: npm run build
+        env:
+          VITRIN_SUPABASE_URL: https://example.supabase.co
+          VITRIN_SUPABASE_KEY: sb_publishable_placeholder

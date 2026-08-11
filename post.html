@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="fa-AF" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="ثبت یا ویرایشِ آگهی در ویترین.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%230d9488'/%3E%3Cpath d='M5 10l1.5-5h11L19 10M5 10v9h14v-9M5 10h14M9.5 19v-5h5v5' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<title>ثبت آگهی — ویترین</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head>
+<body data-page="post"><div class="wrap"><div class="auth-box" style="max-width:560px">
+ <h1>ثبت / ویرایش آگهی</h1><p class="sub">این آگهی با نامِ فروشنده‌گی‌ات منتشر می‌شود.</p>
+ <form id="form">
+  <div class="field"><label>عنوان آگهی *</label><input id="fTitle" maxlength="100" required placeholder="مثلاً: اکانت PUBG با لول بالا"></div>
+  <div class="row2"><div class="field"><label>دسته‌بندی</label><select id="fCat"></select></div>
+  <div class="field"><label>قیمت (افغانی) — خالی یعنی توافقی</label><input id="fPrice" type="number" min="0" placeholder="توافقی"></div></div>
+  <div class="field"><label>توضیحات *</label><textarea id="fDesc" maxlength="800" required placeholder="مشخصات اکانت…"></textarea></div>
+  <div class="row2"><div class="field"><label>شماره واتساپ (۰۷…) *</label><input id="fWa" inputmode="tel" required placeholder="07xxxxxxxx"></div>
+  <div class="field"><label>تصویر (اختیاری، حداکثر ۵ مگابایت)</label><input id="fImg" type="file" accept="image/*"></div></div>
+  <button type="submit" class="btn btn-primary" style="width:100%;padding:13px">ذخیره و انتشار</button>
+ </form>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script><script src="js/supabase-client.js"></script><script src="js/store.js"></script><script src="js/app.js"></script></body></html>
