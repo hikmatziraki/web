@@ -1,0 +1,8 @@
+{
+  "name":"techpulse",
+  "version":"1.0.0",
+  "private":true,
+  "description":"تک‌پالس — Persian/Dari technology newsroom",
+  "engines":{"node":">=20"},
+  "dependencies":{"@supabase/supabase-js":"^2.55.0"}
+}
