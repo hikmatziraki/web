@@ -1,0 +1,31 @@
+name: TechPulse CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Syntax check
+        run: |
+          node --check api/_lib/db.js
+          node --check api/_lib/http.js
+          node --check api/articles.js
+          node --check 'api/articles/[id].js'
+          node --check api/create.js
+          node --check api/contact.js
+          node --check api/robots.js
+          node --check api/sitemap.js
+          node --check public/assets/js/app.js
+          node --check public/assets/js/telegram-links.js
+      - name: Validate JSON
+        run: |
+          node -e "JSON.parse(require('fs').readFileSync('package.json','utf8')); JSON.parse(require('fs').readFileSync('vercel.json','utf8')); JSON.parse(require('fs').readFileSync('public/manifest.webmanifest','utf8')); console.log('JSON OK')"
