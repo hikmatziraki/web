@@ -1,15 +1,64 @@
+const crypto = require('node:crypto');
 const db = require('./_lib/db');
-const allowed = new Set(['هوش مصنوعی','تکنولوژی','علم','کسب‌وکار']);
-module.exports = async function handler(req,res){
-  if(req.method!=='POST') return res.status(405).json({error:'روش درخواست پشتیبانی نمی‌شود'});
-  if(!process.env.API_SECRET || req.headers['x-api-secret']!==process.env.API_SECRET) return res.status(401).json({error:'دسترسی غیرمجاز'});
-  try{
-    const body=typeof req.body==='object'?req.body:JSON.parse(req.body||'{}');
-    const title=String(body.title||'').trim(), content=String(body.content||'').trim(), url=String(body.url||'').trim(), category=String(body.category||'').trim();
-    if(!title||!content||!url||!allowed.has(category)) return res.status(400).json({error:'فیلدهای ضروری ناقص یا نامعتبر هستند'});
-    if(title.length>300||content.length>100000||url.length>2048) return res.status(400).json({error:'اندازه داده بیش از حد مجاز است'});
-    const payload={title,content,url,category,excerpt:String(body.excerpt||'').trim()||content.replace(/\s+/g,' ').slice(0,160),image_url:String(body.image_url||'').trim()||null,source:String(body.source||'').trim()||null};
-    const {data,error}=await db.from('articles').insert(payload).select('id').single();
-    if(error) throw error; return res.status(201).json({id:data.id});
-  }catch(e){console.error(e); if(e.code==='23505') return res.status(409).json({error:'این خبر قبلاً ثبت شده است'}); return res.status(500).json({error:'خطا در ثبت خبر'});}
+const { json, parseJsonBody, text, isHttpUrl } = require('./_lib/http');
+
+const allowed = new Set(['هوش مصنوعی', 'تکنولوژی', 'علم', 'کسب‌وکار']);
+
+function safeEqual(a, b) {
+  if (!a || !b) return false;
+  const left = Buffer.from(String(a));
+  const right = Buffer.from(String(b));
+  return left.length === right.length && crypto.timingSafeEqual(left, right);
+}
+
+module.exports = async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return json(res, 405, { error: 'روش درخواست پشتیبانی نمی‌شود' });
+  }
+
+  const configuredSecret = process.env.API_SECRET;
+  if (!configuredSecret || !safeEqual(req.headers['x-api-secret'], configuredSecret)) {
+    return json(res, 401, { error: 'دسترسی غیرمجاز' });
+  }
+
+  try {
+    const body = parseJsonBody(req);
+    const title = text(body.title, 300);
+    const content = text(body.content, 100000);
+    const url = text(body.url, 2048);
+    const imageUrl = text(body.image_url, 2048);
+    const source = text(body.source, 200);
+    const category = text(body.category, 50);
+    const excerpt = text(body.excerpt, 320) || content.replace(/\s+/g, ' ').slice(0, 160);
+
+    if (!title || !content || !url || !allowed.has(category)) {
+      return json(res, 400, { error: 'فیلدهای ضروری ناقص یا نامعتبر هستند' });
+    }
+
+    if (!isHttpUrl(url) || (imageUrl && !isHttpUrl(imageUrl))) {
+      return json(res, 400, { error: 'آدرس منبع یا تصویر باید با http یا https شروع شود' });
+    }
+
+    const payload = {
+      title,
+      excerpt,
+      content,
+      url,
+      image_url: imageUrl || null,
+      source: source || null,
+      category
+    };
+
+    const { data, error } = await db.from('articles').insert(payload).select('id').single();
+    if (error) {
+      if (error.code === '23505') return json(res, 409, { error: 'این خبر قبلاً ثبت شده است' });
+      throw error;
+    }
+
+    return json(res, 201, { id: data.id });
+  } catch (error) {
+    console.error(error);
+    return json(res, error.status || 500, { error: error.status ? error.message : 'خطا در ثبت خبر' });
+  }
 };

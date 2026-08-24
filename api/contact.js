@@ -1,11 +1,59 @@
 const db = require('./_lib/db');
-module.exports = async function handler(req,res){
-  if(req.method!=='POST') return res.status(405).json({error:'روش درخواست پشتیبانی نمی‌شود'});
-  try{
-    const body=typeof req.body==='object'?req.body:JSON.parse(req.body||'{}');
-    const name=String(body.name||'').trim(), message=String(body.message||'').trim();
-    if(name.length<2||name.length>120||message.length<5||message.length>5000) return res.status(400).json({error:'اطلاعات فرم نامعتبر است'});
-    const {error}=await db.from('contact_messages').insert({name,message}); if(error) throw error;
-    return res.status(201).json({ok:true});
-  }catch(e){console.error(e);return res.status(500).json({error:'ارسال پیام ناموفق بود'});}
+const { json, parseJsonBody, text } = require('./_lib/http');
+
+const buckets = new Map();
+
+function limited(ip) {
+  const now = Date.now();
+  const existing = buckets.get(ip) || [];
+  const recent = existing.filter((time) => now - time < 10 * 60 * 1000);
+  if (recent.length >= 5) return true;
+  recent.push(now);
+  buckets.set(ip, recent);
+  if (buckets.size > 5000) buckets.clear();
+  return false;
+}
+
+function sameOrigin(req) {
+  const origin = req.headers.origin;
+  if (!origin) return true;
+  try {
+    const url = new URL(origin);
+    const host = String(req.headers['x-forwarded-host'] || req.headers.host || '').split(',')[0].trim();
+    return url.host === host;
+  } catch {
+    return false;
+  }
+}
+
+module.exports = async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return json(res, 405, { error: 'روش درخواست پشتیبانی نمی‌شود' });
+  }
+
+  if (!sameOrigin(req)) return json(res, 403, { error: 'درخواست نامعتبر است' });
+
+  const ip = String(req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
+  if (limited(ip)) return json(res, 429, { error: 'تعداد درخواست‌ها زیاد است. چند دقیقه بعد دوباره تلاش کنید.' });
+
+  try {
+    const body = parseJsonBody(req);
+    const name = text(body.name, 120);
+    const message = text(body.message, 5000);
+    const website = text(body.website, 200);
+
+    if (website) return json(res, 400, { error: 'درخواست رد شد' });
+    if (name.length < 2 || message.length < 5) {
+      return json(res, 400, { error: 'نام و پیام را به‌درستی وارد کنید' });
+    }
+
+    const { error } = await db.from('contact_messages').insert({ name, message });
+    if (error) throw error;
+
+    return json(res, 201, { ok: true });
+  } catch (error) {
+    console.error(error);
+    return json(res, 500, { error: 'ارسال پیام ناموفق بود' });
+  }
 };

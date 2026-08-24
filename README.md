@@ -1,22 +1,41 @@
-# تک‌پالس | TechPulse
+# تک‌پالس (TechPulse)
 
-یک رسانه خبری مینیمال و حرفه‌ای برای اخبار هوش مصنوعی و تکنولوژی به زبان فارسی/دری.
+رسانه خبری فارسی/دری با HTML/CSS/JS ساده، Vercel Serverless Functions و Supabase.
 
 ## معماری
-- Frontend: HTML/CSS/JS ساده و کاملاً RTL
-- API: Vercel Serverless Functions (Node.js)
-- Data: Supabase
-- هیچ کلید Supabase در مرورگر قرار نمی‌گیرد.
 
-## متغیرهای Vercel
-`SUPABASE_URL`، `SUPABASE_SERVICE_ROLE_KEY`، `API_SECRET`
+- Frontend: `public/`
+- API: `api/`
+- Database schema: `supabase/schema.sql`
+- هیچ کلید Supabase در کد مرورگر وجود ندارد.
+- Backend از `SUPABASE_SECRET_KEY` (ترجیحی) یا `SUPABASE_SERVICE_ROLE_KEY` استفاده می‌کند.
+- `POST /api/create` با `X-API-Secret` محافظت می‌شود.
+- `POST /api/contact` فقط از same-origin پذیرفته می‌شود و rate-limit پایه دارد.
+- `robots.txt` و `sitemap.xml` به‌صورت serverless تولید می‌شوند.
+
+## Environment Variables در Vercel
+
+`SUPABASE_URL`
+`SUPABASE_SERVICE_ROLE_KEY`
+`API_SECRET`
+
+برای Supabase جدید، می‌توان به‌جای `SUPABASE_SERVICE_ROLE_KEY` از `SUPABASE_SECRET_KEY` استفاده کرد.
 
 ## Deploy
-1. پروژه Supabase را بسازید و `supabase/schema.sql` را اجرا کنید.
-2. ریپو را در Vercel Import کنید.
-3. سه Environment Variable بالا را در Production/Preview/Development تنظیم کنید.
-4. Deploy را اجرا کنید.
 
-## Bot ingestion
-`POST /api/create` با هدر `X-API-Secret` و بدنه JSON:
-`{title, content, url, image_url, source, category}`
+1. در Supabase پروژه را بسازید و `supabase/schema.sql` را اجرا کنید.
+2. Repository را در Vercel import کنید.
+3. Environment Variables را فقط در Vercel اضافه کنید.
+4. Build Command را خالی بگذارید؛ پروژه بدون framework build می‌شود.
+5. Deploy کنید.
+
+## مسیرهای اصلی
+
+- `/`
+- `/article/:id`
+- `/category/:name`
+- `/search.html?q=...`
+- `/about.html`
+- `/contact.html`
+- `/robots.txt`
+- `/sitemap.xml`
