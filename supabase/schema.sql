@@ -10,18 +10,19 @@ create table if not exists public.articles (
   created_at timestamptz not null default now()
 );
 
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'articles_source_url_check') THEN
+    ALTER TABLE public.articles ADD CONSTRAINT articles_source_url_check CHECK (left(btrim(url), 7) in ('http://','https://'));
+  END IF;
+END $$;
+
 create index if not exists articles_created_at_idx on public.articles(created_at desc);
 create index if not exists articles_category_created_at_idx on public.articles(category, created_at desc);
 
 alter table public.articles enable row level security;
-
 drop policy if exists "public can read articles" on public.articles;
-create policy "public can read articles"
-  on public.articles
-  for select
-  to anon, authenticated
-  using (true);
-
+create policy "public can read articles" on public.articles for select to anon, authenticated using (true);
 revoke all on public.articles from anon, authenticated;
 grant select on public.articles to anon, authenticated;
 
@@ -33,13 +34,6 @@ create table if not exists public.contact_messages (
 );
 
 alter table public.contact_messages enable row level security;
-
 drop policy if exists "no public access to contact messages" on public.contact_messages;
-create policy "no public access to contact messages"
-  on public.contact_messages
-  for all
-  to anon, authenticated
-  using (false)
-  with check (false);
-
+create policy "no public access to contact messages" on public.contact_messages for all to anon, authenticated using (false) with check (false);
 revoke all on public.contact_messages from anon, authenticated;
