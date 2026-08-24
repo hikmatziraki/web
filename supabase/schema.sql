@@ -22,7 +22,7 @@ create policy "public can read articles"
   to anon, authenticated
   using (true);
 
-revoke insert, update, delete on public.articles from anon, authenticated;
+revoke all on public.articles from anon, authenticated;
 grant select on public.articles to anon, authenticated;
 
 create table if not exists public.contact_messages (
