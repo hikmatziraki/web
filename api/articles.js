@@ -8,8 +8,12 @@ function integerParam(value, fallback, min, max) {
   return Number.isInteger(n) ? Math.min(Math.max(n, min), max) : fallback;
 }
 
+function text(value) {
+  return typeof value === 'string' ? value : value == null ? '' : String(value);
+}
+
 function readingTime(content) {
-  const words = String(content || '').trim().split(/\s+/).filter(Boolean).length;
+  const words = text(content).trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.ceil(words / 200));
 }
 
@@ -39,17 +43,22 @@ module.exports = async function handler(req, res) {
     const { data, count, error } = await query;
     if (error) throw error;
 
-    const items = (data || []).map((article) => ({
-      id: article.id,
-      title: article.title,
-      excerpt: article.excerpt || String(article.content || '').replace(/\s+/g, ' ').slice(0, 160),
-      url: article.url,
-      image_url: article.image_url,
-      source: article.source,
-      category: article.category,
-      created_at: article.created_at,
-      reading_time: readingTime(article.content)
-    }));
+    const items = (data || []).map((article) => {
+      const content = text(article.content);
+      const title = text(article.title).trim();
+      const excerpt = text(article.excerpt).trim() || content.replace(/\s+/g, ' ').slice(0, 160);
+      return {
+        id: article.id,
+        title,
+        excerpt,
+        url: text(article.url),
+        image_url: text(article.image_url),
+        source: text(article.source),
+        category: text(article.category),
+        created_at: article.created_at,
+        reading_time: readingTime(content)
+      };
+    });
 
     publicCache(res, 60);
     return res.status(200).json({ items, total: count || 0, limit, offset });
