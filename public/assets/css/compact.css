@@ -1,0 +1,50 @@
+/* تک‌پالس — typography refinement */
+/* Loaded after style.css so the original layout remains intact. */
+
+html, body { font-size: 15px; }
+body { line-height: 1.75; }
+.brand { font-size: 1.12rem !important; }
+.nav-links { font-size: .82rem !important; }
+.btn { font-size: .82rem !important; min-height: 38px; padding: 7px 12px; }
+.eyebrow { font-size: .64rem !important; }
+.hero { padding: 64px 0 50px; }
+.hero h1 { font-size: clamp(1.85rem, 4.1vw, 3rem) !important; line-height: 1.2; }
+.hero p { font-size: clamp(.88rem, 1.55vw, .98rem) !important; }
+.section { padding: 34px 0; }
+.section-head h1 { font-size: clamp(1.55rem, 3.4vw, 2.35rem) !important; }
+.section-head h2 { font-size: 1.08rem !important; }
+.card h2 { font-size: 1.12rem; }
+.card h3 { font-size: .96rem !important; }
+.excerpt, .meta { font-size: .76rem !important; }
+.featured h2 { font-size: clamp(1.18rem, 2.8vw, 1.8rem) !important; }
+.category-strip a { font-size: .88rem; padding: 15px; }
+.telegram-band strong { font-size: .92rem; }
+.footer { font-size: .82rem; }
+.footer-bottom { font-size: .74rem; }
+.article h1 { font-size: clamp(1.65rem, 3.8vw, 2.85rem) !important; }
+.article-lead { font-size: .92rem !important; }
+.article .meta { font-size: .78rem !important; }
+.article-body { font-size: .94rem !important; line-height: 1.9; }
+.prose h2 { font-size: 1.12rem; }
+.prose p { font-size: .92rem; }
+.search-box input { font-size: .88rem !important; }
+.search-meta { font-size: .76rem !important; }
+.state { font-size: .9rem; }
+
+@media (max-width: 759px) {
+  html, body { font-size: 14px; }
+  .nav { min-height: 60px; }
+  .hero { padding: 54px 0 42px; }
+  .hero h1 { font-size: clamp(1.72rem, 8.2vw, 2.25rem) !important; }
+  .hero p { font-size: .88rem !important; }
+  .section { padding: 28px 0; }
+  .section-head h1 { font-size: 1.65rem !important; }
+  .section-head h2 { font-size: 1.02rem !important; }
+  .featured h2 { font-size: 1.22rem !important; }
+  .card h3 { font-size: .94rem !important; }
+  .card-body { padding: 14px; }
+  .article { padding: 24px 0 48px; }
+  .article h1 { font-size: clamp(1.55rem, 7.2vw, 2.05rem) !important; }
+  .article-body { font-size: .92rem !important; }
+  .actions { gap: 7px; }
+}
