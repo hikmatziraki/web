@@ -1,1 +1,20 @@
-{"name":"تک‌پالس","short_name":"تک‌پالس","lang":"fa","dir":"rtl","start_url":"/","display":"standalone","background_color":"#07111f","theme_color":"#07111f","icons":[{"src":"/favicon.svg","sizes":"any","type":"image/svg+xml"}]}
+{
+  "name": "تک‌پالس — اخبار تکنولوژی",
+  "short_name": "تک‌پالس",
+  "description": "نبض اخبار هوش مصنوعی، تکنولوژی، علم و کسب‌وکار به فارسی و دری.",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#050d18",
+  "theme_color": "#050d18",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

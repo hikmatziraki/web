@@ -27,8 +27,8 @@ module.exports = async function handler(req, res) {
 
     const staticPages = [
       '/',
-      '/about.html',
-      '/contact.html',
+      '/about',
+      '/contact',
       '/category/هوش%20مصنوعی',
       '/category/تکنولوژی',
       '/category/علم',
